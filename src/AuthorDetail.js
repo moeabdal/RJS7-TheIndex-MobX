@@ -4,6 +4,7 @@ import axios from "axios";
 // Components
 import BookTable from "./BookTable";
 import Loading from "./Loading";
+import bookStore from "./stores/bookStore";
 
 const instance = axios.create({
   baseURL: "https://the-index-api.herokuapp.com"
@@ -43,6 +44,7 @@ class AuthorDetail extends Component {
     } else {
       const author = this.state.author;
       const authorName = `${author.first_name} ${author.last_name}`;
+      const books = author.books.map(book => bookStore.getBookbyId(book.id));
       return (
         <div className="author">
           <div>
@@ -53,7 +55,7 @@ class AuthorDetail extends Component {
               alt={authorName}
             />
           </div>
-          <BookTable books={author.books} />
+          <BookTable books={books} />
         </div>
       );
     }
